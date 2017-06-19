@@ -243,9 +243,6 @@ public extension UITableView{
                                 dragableHelper.floatImageView.removeFromSuperview()
                                 dragableHelper.draggingCell?.isHidden = false
                                 dragableHelper.draggingCell = nil
-								if let currentIndexPath = self.indexPathForRow(at: location) {
-									self.dragableDelegate?.tableView?(self, endDragCellTo: currentIndexPath)
-								}
                 })
             } else {
                 UIView.animate(withDuration: 0.2,
@@ -258,12 +255,15 @@ public extension UITableView{
                                             dragableHelper.floatImageView.removeFromSuperview()
                                             dragableHelper.draggingCell?.isHidden = false
                                             dragableHelper.draggingCell = nil
-											if let currentIndexPath = self.indexPathForRow(at: location) {
-												self.dragableDelegate?.tableView?(self, endDragCellTo: currentIndexPath)
-											}
+
                 })
             }
         }
+		if (gesture.state == .cancelled || gesture.state == .ended) {
+			if let currentIndexPath = self.indexPathForRow(at: location) {
+				self.dragableDelegate?.tableView?(self, endDragCellTo: currentIndexPath)
+			}
+		}
     }
     func lh_gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let location = gestureRecognizer.location(in: self)
