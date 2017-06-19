@@ -70,7 +70,7 @@ import UIKit
     @objc optional func tableView(_ tableView: UITableView,dragableImageView imageView: UIImageView)
 
 	
-	@objc optional func tableView(_ tableView: UITableView, endDragCellTo indexPath: IndexPath)
+	@objc optional func tableView(_ tableView: UITableView, endDragCellTo indexPath: IndexPath?)
 }
 
 /// A class to hold propertys
@@ -170,6 +170,7 @@ public extension UITableView{
         let helper = DragableHelper(tableView:self,displayLink: displayLink, gesture: longPressGesture, floatImageView: imageView)
         dragableHelper = helper
     }
+	
     fileprivate func cleanDragable(){
         guard let helper = dragableHelper else{
             return
@@ -262,6 +263,8 @@ public extension UITableView{
 		if (gesture.state == .cancelled || gesture.state == .ended) {
 			if let currentIndexPath = self.indexPathForRow(at: location) {
 				self.dragableDelegate?.tableView?(self, endDragCellTo: currentIndexPath)
+			} else {
+				self.dragableDelegate?.tableView?(self, endDragCellTo: nil)
 			}
 		}
     }
