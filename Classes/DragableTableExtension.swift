@@ -365,7 +365,7 @@ private class _DisplayLink{
         _link.isPaused = true
     }
     
-    fileprivate let _callback: (Void) -> Void
+    fileprivate let _callback: () -> Void
     
     fileprivate var _link: CADisplayLink!
     
